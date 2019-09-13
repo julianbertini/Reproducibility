@@ -21,7 +21,7 @@ ggplot(data=data) +
 ## Testing the dLGP function theda = lambda1, lambda = lambda2
 ans <- mean.k.sowbugs * 0.46786
 lgp <- data.frame(dLGP(arth.data$k_arthropods, 1.5, 0.53214))
-names(lgp) <- c("lgp")
+names(lgp) <- c("lgp") #Change acronym
 ggplot(data=lgp) +
   aes(x=c(0:17), y = lgp) +
   geom_line()
