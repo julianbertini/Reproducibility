@@ -78,7 +78,7 @@ ggplot(data=arth.data) +
   geom_line(aes(y=prob.k.sowbugs, color="Data")) +
   geom_line(aes(y=poiss_sowbugs, color="Poisson")) +
   labs(title="Poisson Dist. and Sowbug Data", x="Arthropods",
-       y="Probability") +
+       y="Probability") + #labelling titles
   guides(alpha=FALSE) +
   scale_color_manual(name = element_blank(),
                      labels = c("Data", "Poisson"),
