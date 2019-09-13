@@ -1,6 +1,7 @@
 library(ggplot2)
 library(RMKdiscrete)
 
+## set the directory
 setwd("/Users/julianbertini/Desktop/BSD-QBio5/tutorials/reproducibility")
 
 arth.data <- read.csv("data/cole_arthropod_Data_1946.csv")
@@ -65,6 +66,8 @@ arth.data$poiss_sowbugs <- dpois(arth.data$k_arthropods, mean.k.sowbugs)
 lgp.spider <- data.frame(dLGP(arth.data$k_arthropods, mean.k.spiders, 0))
 names(lgp.spider) <- c("lgp")
 
+
+##make the plot
 ggplot(data=arth.data) +
   aes(x=k_arthropods, y=prob.k.sowbugs) +
   geom_point(aes(color="Data"),alpha=0.5) +
