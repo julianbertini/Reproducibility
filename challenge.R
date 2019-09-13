@@ -1,8 +1,10 @@
 library(ggplot2)
 library(RMKdiscrete)
 
+## set the directory
 setwd("/Users/julianbertini/Desktop/BSD-QBio5/tutorials/reproducibility")
 
+##loading in the data
 arth.data <- read.csv("data/cole_arthropod_Data_1946.csv")
 weevil.data <- read.csv("data/mitchell_weevil_egg_data_1975.csv")
 
@@ -19,7 +21,7 @@ ggplot(data=data) +
 ## Testing the dLGP function theda = lambda1, lambda = lambda2
 ans <- mean.k.sowbugs * 0.46786
 lgp <- data.frame(dLGP(arth.data$k_arthropods, 1.5, 0.53214))
-names(lgp) <- c("lgp")
+names(lgp) <- c("lgp") #Change acronym
 ggplot(data=lgp) +
   aes(x=c(0:17), y = lgp) +
   geom_line()
@@ -37,6 +39,7 @@ arth.data$poiss_spiders <- dpois(arth.data$k_arthropods, mean.k.spiders)
 lgp.spider <- data.frame(dLGP(arth.data$k_arthropods, mean.k.spiders, 0))
 names(lgp.spider) <- c("lgp")
 
+# Plots the arthrapod data
 ggplot(data=arth.data) +
   aes(x = k_arthropods, y = prob_k_spiders) +
   geom_point(aes(color="Data"),alpha=0.8) +
@@ -49,7 +52,7 @@ ggplot(data=arth.data) +
   guides(alpha=FALSE) +
   scale_color_manual(name = element_blank(),
                      labels = c("Data", "Poisson", ""),
-                     values = c("red", "dark green"))
+                     values = c("red", "dark green")) ## labelling the legends
 
 ### Graphing sowbugs data along with dpois
 total.sowbug.obsv <- sum(arth.data$c_boards_with_k_sowbugs)
@@ -65,6 +68,8 @@ arth.data$poiss_sowbugs <- dpois(arth.data$k_arthropods, mean.k.sowbugs)
 lgp.spider <- data.frame(dLGP(arth.data$k_arthropods, mean.k.spiders, 0))
 names(lgp.spider) <- c("lgp")
 
+
+##make the plot
 ggplot(data=arth.data) +
   aes(x=k_arthropods, y=prob.k.sowbugs) +
   geom_point(aes(color="Data"),alpha=0.5) +
