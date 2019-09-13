@@ -4,6 +4,7 @@ library(RMKdiscrete)
 ## set the directory
 setwd("/Users/julianbertini/Desktop/BSD-QBio5/tutorials/reproducibility")
 
+##loading in the data
 arth.data <- read.csv("data/cole_arthropod_Data_1946.csv")
 weevil.data <- read.csv("data/mitchell_weevil_egg_data_1975.csv")
 
