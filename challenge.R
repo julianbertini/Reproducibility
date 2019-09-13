@@ -38,6 +38,7 @@ arth.data$poiss_spiders <- dpois(arth.data$k_arthropods, mean.k.spiders)
 lgp.spider <- data.frame(dLGP(arth.data$k_arthropods, mean.k.spiders, 0))
 names(lgp.spider) <- c("lgp")
 
+# Plots the arthrapod data
 ggplot(data=arth.data) +
   aes(x = k_arthropods, y = prob_k_spiders) +
   geom_point(aes(color="Data"),alpha=0.8) +
