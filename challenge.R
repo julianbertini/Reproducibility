@@ -52,7 +52,7 @@ ggplot(data=arth.data) +
   guides(alpha=FALSE) +
   scale_color_manual(name = element_blank(),
                      labels = c("Data", "Poisson", ""),
-                     values = c("red", "dark green"))
+                     values = c("red", "dark green")) ## labelling the legends
 
 ### Graphing sowbugs data along with dpois
 total.sowbug.obsv <- sum(arth.data$c_boards_with_k_sowbugs)
