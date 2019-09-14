@@ -1,10 +1,8 @@
 library(ggplot2)
 library(RMKdiscrete)
 
-## set the directory
 setwd("/Users/julianbertini/Desktop/BSD-QBio5/tutorials/reproducibility")
 
-##loading in the data
 arth.data <- read.csv("data/cole_arthropod_Data_1946.csv")
 weevil.data <- read.csv("data/mitchell_weevil_egg_data_1975.csv")
 
@@ -21,7 +19,7 @@ ggplot(data=data) +
 ## Testing the dLGP function theda = lambda1, lambda = lambda2
 ans <- mean.k.sowbugs * 0.46786
 lgp <- data.frame(dLGP(arth.data$k_arthropods, 1.5, 0.53214))
-names(lgp) <- c("lgp") #Change acronym
+names(lgp) <- c("lgp")
 ggplot(data=lgp) +
   aes(x=c(0:17), y = lgp) +
   geom_line()
@@ -39,20 +37,19 @@ arth.data$poiss_spiders <- dpois(arth.data$k_arthropods, mean.k.spiders)
 lgp.spider <- data.frame(dLGP(arth.data$k_arthropods, mean.k.spiders, 0))
 names(lgp.spider) <- c("lgp")
 
-# Plots the arthrapod data
 ggplot(data=arth.data) +
   aes(x = k_arthropods, y = prob_k_spiders) +
   geom_point(aes(color="Data"),alpha=0.8) +
   geom_point(aes(x = k_arthropods, 
                  y = poiss_spiders, 
-                 color="Poisson"),alpha=0.5) +
-  geom_line(aes(y=lgp.spider$lgp, color="LGP")) +
+                 color="Poisson"),alpha=0.8) +
+  geom_line(aes(y=lgp.spider$lgp, color="LGP"), alpha=1) +
   labs(title="Poisson Dist. and Spider Data", x="Arthropods",
        y="Probability") +
   guides(alpha=FALSE) +
   scale_color_manual(name = element_blank(),
-                     labels = c("Data", "Poisson", "LGP"),
-                     values = c("red", "dark green", "black")) ## labelling the legends
+                     labels = c("Data", "LGP", "Poisson"),
+                     values = c("red", "pink", "black"))
 
 ### Graphing sowbugs data along with dpois
 total.sowbug.obsv <- sum(arth.data$c_boards_with_k_sowbugs)
@@ -65,11 +62,11 @@ arth.data$poiss_sowbugs <- dpois(arth.data$k_arthropods, mean.k.sowbugs)
 
 
 ## Theoretical LPD for sowbug
-lgp.spider <- data.frame(dLGP(arth.data$k_arthropods, mean.k.spiders, 0))
-names(lgp.spider) <- c("lgp")
+# theda = lambda1, lambda = lambda2
+lambda2 <- 0.53214
+lgp.sowbug <- data.frame(dLGP(arth.data$k_arthropods, mean.k.sowbugs*(1-lambda2), lambda2))
+names(lgp.sowbug) <- c("lgp")
 
-
-##make the plot
 ggplot(data=arth.data) +
   aes(x=k_arthropods, y=prob.k.sowbugs) +
   geom_point(aes(color="Data"),alpha=0.5) +
@@ -77,14 +74,15 @@ ggplot(data=arth.data) +
                  y = poiss_sowbugs, color="Poisson"),alpha=0.5) +
   geom_line(aes(y=prob.k.sowbugs, color="Data")) +
   geom_line(aes(y=poiss_sowbugs, color="Poisson")) +
+  geom_line(aes(y=lgp.sowbug$lgp, color="LGP")) +
   labs(title="Poisson Dist. and Sowbug Data", x="Arthropods",
-       y="Probability") + #labelling titles
+       y="Probability") +
   guides(alpha=FALSE) +
   scale_color_manual(name = element_blank(),
-                     labels = c("Data", "Poisson"),
-                     values = c("red", "dark green"))
+                     labels = c("Data", "LGP", "Poisson"),
+                     values = c("red", "pink", "black"))
 
-## Graphing weevil data along with dpois
+## Graphing weevil data along with 
 total.weevil.obsv <- sum(weevil.data$c_beans_with_k_eggs)
 sum.k.weevil.seen <- sum(weevil.data$k_eggs * weevil.data$c_beans_with_k_eggs)
 mean.k.weevils <- sum.k.weevil.seen/total.weevil.obsv
@@ -93,21 +91,28 @@ prob.k.weevils <- sapply(weevil.data$c_beans_with_k_eggs,
 weevil.data$prob_k_eggs <- prob.k.weevils
 weevil.data$poiss_weevils <- dpois(weevil.data$k_eggs, mean.k.weevils)
 
+## Theoretical LPD for sowbug
+# theda = lambda1, lambda = lambda2
+lambda2 <- 0.1
+lgp.weevil <- data.frame(dLGP(weevil.data$k_eggs, mean.k.weevils*(1-lambda2), lambda2))
+names(lgp.weevil) <- c("lgp")
+
 ggplot(data=weevil.data) +
   aes(x=k_eggs, y=prob.k.weevils) +
   geom_point(aes(color="Data"),alpha=0.5) +
   geom_point(aes(x = k_eggs, 
                  y = poiss_weevils, color="Poisson"),alpha=0.5) +
-  geom_line(aes(y=prob.k.weevils, color="Data")) +
-  geom_line(aes(y=poiss_weevils, color="Poisson")) +
+  # geom_line(aes(y=prob.k.weevils, color="Data")) +
+  # geom_line(aes(y=poiss_weevils, color="Poisson")) +
+  geom_line(aes(y=lgp.weevil$lgp, color="LGP")) +
   labs(title="Poisson Dist. and Weevil Data", x="Eggs",
        y="Probability") +
   guides(alpha=FALSE) +
   scale_color_manual(name = element_blank(),
-                     labels = c("Data", "Poisson"),
-                     values = c("red", "dark green")) #Correcting colors of the variables
+                     labels = c("Data", "LGP", "Poisson"),
+                     values = c("red", "pink", "black"))
 
-  
+
 
 
 
